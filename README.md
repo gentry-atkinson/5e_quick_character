@@ -23,7 +23,7 @@ CHA: bard, sorcerer, warlock, paladin
 A race is chosen for the character based on the chosen class. The possibilities are:
 
 Archer Ranger: wood elf, half elf
-Artificer: gnome, high elf
+Artificer: rock gnome, high elf
 Barbarian: human, half orc
 Bard: half elf, lightfoot halfling
 Caster Ranger: hill dwarf, wood elf

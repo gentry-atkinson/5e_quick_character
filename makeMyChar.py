@@ -7,6 +7,7 @@
 ###################################################################
 
 from random import randint, shuffle, choice
+from math import floor
 
 def rollAttr():
     roll = [randint(1,6), randint(1,6), randint(1,6), randint(1,6)]
@@ -46,6 +47,7 @@ class Character:
         self.langs = set(['Common'])
         self.aProfs = set()
         self.wProfs = set()
+        self.saves = set()
         self.size = ""
         self.speed = 0
         self.gold = 0
@@ -396,6 +398,78 @@ class Character:
         else:
             raise Exception("Bad background {} when setting skills.".format(self.bg))
 
+    def setSkillsForClass(self):
+        if self.cl == 'archer ranger':
+            self.hitDie = 'd10'
+            self.hp = 10 + floor((self.stats['con']-10)/2)
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            self.skills.add('Nature')
+            if 'Stealth' in self.skills:
+                self.skills.add('Insight')
+            else:
+                self.skills.add('Stealth')
+            if 'Perception' in self.skills:
+                self.skills.add('Animal Handling')
+            else:
+                self.skills.add('Perception')
+        elif self.cl == 'artificer':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.tProfs.add('thieves\' tools')
+            self.tProfs.add('tinker\'s tools')
+            if 'smith\'s tools' in self.tProfs:
+                self.tProfs.add('carpenter\'s tools')
+            else:
+                self.tProfs.add('smith\'s tools')
+        elif self.cl == 'barbarian':
+
+        elif self.cl == 'bard':
+
+        elif self.cl == 'caster ranger':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            self.skills.add('Nature')
+            if 'Stealth' in self.skills:
+                self.skills.add('Insight')
+            else:
+                self.skills.add('Stealth')
+            if 'Perception' in self.skills:
+                self.skills.add('Animal Handling')
+            else:
+                self.skills.add('Perception')
+        elif self.cl == 'druid':
+
+        elif self.cl == 'healer cleric':
+
+        elif self.cl == 'melee fighter':
+
+        elif self.cl == 'paladin':
+
+        elif self.cl == 'rogue':
+
+        elif self.cl == 'sorcerer':
+
+        elif self.cl == 'tank cleric':
+
+        elif self.cl == 'tank fighter':
+
+        elif self.cl == 'warlock':
+
+        elif self.cl == 'wizard':
+
+        else:
+            raise Exception("Bad class {} when setting skills.".format(self.cl))
+            return
+
 
 
 if __name__ == "__main__":
@@ -413,5 +487,6 @@ if __name__ == "__main__":
         print('My humble background is as a ' + myChar.bg)
         myChar.setSkillsForRace()
         myChar.setSkillsForBackground()
+        myChar.setSkillsForClass()
         print('I speak ' + ' '.join(list(myChar.langs)))
         print('I do ' + ' '.join(list(myChar.skills)))

@@ -41,12 +41,12 @@ Wizard: human, high elf
 ##Background
 The character's background is selected at random from two choices for each class. The possibilities are:
 
-Artificer: Anthropologis, Sage
+Artificer: Guild Artisan, Sage
 Barbarian: Outlander, Soldier
 Bard: Entertainer, Charlatan
 Cleric: Acolyte, Hermit
 Fighter: Folk Hero, Soldier
-Paladin: Noble, Soldier
+Paladin: Noble, Acolyte
 Ranger: Hermit, Folk Hero
 Rogue: Urchin, Criminal
 Sorcer: Noble, Charlatan

@@ -47,11 +47,11 @@ class Character:
         self.langs = set(['Common'])
         self.aProfs = set()
         self.wProfs = set()
-        self.saves = set()
+        self.save = set()
         self.size = ""
         self.speed = 0
         self.gold = 0
-        self.spec = "None"
+        self.arch = "None"
 
     def setClass(self):
         classes = []
@@ -535,8 +535,24 @@ class Character:
             else:
                 self.skills.add('Medicine')
             self.skills.add('History')
-        # elif self.cl == 'melee fighter':
-
+            self.arch = "Life Domain"
+            self.aProfs.add('heavy')
+        elif self.cl == 'melee fighter':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('heavy')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            if 'Athletics' in self.skills:
+                self.skills.add('Perception')
+            else:
+                self.skills.add('Athletics')
+            if 'Intimidation' in self.skills:
+                self.skills.add('Survival')
+            else:
+                self.skills.add('Intimidation')
+            self.arch="Dueling"
         elif self.cl == 'paladin':
             self.aProfs.add('light')
             self.aProfs.add('medium')
@@ -549,10 +565,36 @@ class Character:
                 self.skills.add('Athletics')
             else:
                 self.skills.add('intimidation')
-        # elif self.cl == 'rogue':
-        #
-        # elif self.cl == 'sorcerer':
-        #
+        elif self.cl == 'rogue':
+            self.aProfs.add('light')
+            self.wProfs.add('simple')
+            self.wProfs.add('hand crossbow')
+            self.wProfs.add('longsword')
+            self.wProfs.add('rapier')
+            self.wProfs.add('shortsword')
+            self.tProfs.add('thieves\' tools')
+            if 'Deception' in self.skills:
+                self.skills.add('Sleight of Hand')
+            else:
+                self.skills.add('Deception')
+            if 'Perception' in self.skills:
+                self.skills.add('Persuasion')
+            else:
+                self.skills.add('Perception')
+            self.skills.add('Acrobatics')
+            self.skills.add('Intimidation')
+        elif self.cl == 'sorcerer':
+            self.wProfs.add('dagger')
+            self.wProfs.add('dart')
+            self.wProfs.add('sling')
+            self.wProfs.add('quarterstaff')
+            self.wProfs.add('light crossbow')
+            self.skills.add('Arcana')
+            if 'Deception' in self.skills:
+                self.skills.add('Persuasion')
+            else:
+                self.skills.add('Deception')
+            self.arch=choice(['Draconic', 'Storm', 'Shadow'])
         elif self.cl == 'tank cleric':
             self.aProfs.add('light')
             self.aProfs.add('medium')
@@ -563,16 +605,127 @@ class Character:
             else:
                 self.skills.add('Medicine')
             self.skills.add('History')
-        # elif self.cl == 'tank fighter':
-        #
-        # elif self.cl == 'warlock':
-        #
-        # elif self.cl == 'wizard':
-
+            self.arch = "War Domain"
+            self.aProfs.add('heavy')
+            self.wProfs.add('martial')
+        elif self.cl == 'tank fighter':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('heavy')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            if 'Athletics' in self.skills:
+                self.skills.add('Perception')
+            else:
+                self.skills.add('Athletics')
+            if 'Intimidation' in self.skills:
+                self.skills.add('Survival')
+            else:
+                self.skills.add('Intimidation')
+            self.arch = "Defense"
+        elif self.cl == 'warlock':
+            self.aProfs.add('light')
+            self.wProfs.add('simple')
+            self.skills.add('Arcana')
+            self.skills.add(choice(['Nature', 'History']))
+            self.arch = choice(['Archfey', 'Fiend', 'Great Old One'])
+        elif self.cl == 'wizard':
+            self.wProfs.add('dagger')
+            self.wProfs.add('dart')
+            self.wProfs.add('sling')
+            self.wProfs.add('quarterstaff')
+            self.wProfs.add('light crossbow')
+            if 'Arcana' in self.skills:
+                self.skills.add('Insight')
+            else:
+                self.skills.add('Arcana')
+            self.skills.add('Investigation')
         else:
             raise Exception("Bad class {} when setting skills.".format(self.cl))
             return
 
+    def setHP(self):
+        if self.dispClass == 'Artificer':
+            self.hitDie = 'd8'
+            self.save.add('con')
+            self.save.add('int')
+        elif self.dispClass == 'Barbarian':
+            self.hitDie = 'd12'
+            self.save.add('str')
+            self.save.add('con')
+        elif self.dispClass == 'Bard':
+            self.hitDie = 'd8'
+            self.save.add('dex')
+            self.save.add('cha')
+        elif self.dispClass == 'Cleric':
+            self.hitDie = 'd8'
+            self.save.add('wis')
+            self.save.add('cha')
+        elif self.dispClass == 'Druid':
+            self.hitDie = 'd8'
+            self.save.add('int')
+            self.save.add('wis')
+        elif self.dispClass == 'Fighter':
+            self.hitDie = 'd10'
+            self.save.add('str')
+            self.save.add('con')
+        elif self.dispClass == 'Paladin':
+            self.hitDie = 'd10'
+            self.save.add('wis')
+            self.save.add('cha')
+        elif self.dispClass == 'Ranger':
+            self.hitDie = 'd10'
+            self.save.add('str')
+            self.save.add('dex')
+        elif self.dispClass == 'Rogue':
+            self.hitDie = 'd8'
+            self.save.add('dex')
+            self.save.add('int')
+        elif self.dispClass == 'Sorcerer':
+            self.hitDie = 'd6'
+            self.save.add('con')
+            self.save.add('cha')
+        elif self.dispClass == 'Warlock':
+            self.hitDie = 'd8'
+            self.save.add('wis')
+            self.save.add('cha')
+        elif self.dispClass == 'Wizard':
+            self.hitDie = 'd6'
+            self.save.add('int')
+            self.save.add('wis')
+        else:
+            raise Exception("Bad class {} when setting hitpoints.".format(self.dispClass))
+            return
+        self.hp = int(self.hitDie[1:]) + floor((self.stats['con']-10)/2)
+
+    def write(self):
+        filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
+        charFile = open(filename , 'w+')
+        dexSkills = ['Acrobatics', 'Sleight of Hand', 'Stealth']
+        if not charFile.writable():
+            raise Exception('Could not open character file')
+            return
+        charFile.write('Name: {}\t\tRace: {}\n'.format(self.name, self.race))
+        charFile.write('Levels: 1 {}\t\tBackground: {}\n'.format(self.dispClass, self.bg))
+        charFile.write('Origin: {}\n'.format(self.origin))
+        charFile.write('HP: {}\t\tHit Dice: 1{}\n'.format(self.hp, self.hitDie))
+        charFile.write('Saves: \n')
+        charFile.write('\t\tSTR:{}\tDEX:{}\tCON:{} \n'.format(self.stats['str'], self.stats['dex'], self.stats['con']))
+        charFile.write('\t\tINT:{}\tWIS:{}\tCHA:{} \n'.format(self.stats['int'], self.stats['wis'], self.stats['cha']))
+        charFile.write('Proficiency Bonus: +1\n')
+        charFile.write('Tool Proficiencies: {}\n'.format(', '.join(self.tProfs)))
+        charFile.write('Weapon Proficiencies: {}\n'.format(', '.join(self.wProfs)))
+        charFile.write('Armor Proficiencies: {}\n'.format(', '.join(self.aProfs)))
+        charFile.write('Languages: {}\n'.format(', '.join(self.langs)))
+        charFile.write('Saves: {}\n'.format(' '.join([i.upper() for i in self.save])))
+        charFile.write('\t\tSTR:{}'.format(floor((self.stats['str']-10)/2) + (1 if 'str' in self.save else 0)))
+        charFile.write('\tDEX:{}'.format(floor((self.stats['dex']-10)/2) + (1 if 'dex' in self.save else 0)))
+        charFile.write('\tCON:{}\n'.format(floor((self.stats['con']-10)/2) + (1 if 'con' in self.save else 0)))
+        charFile.write('\t\tINT:{}'.format(floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
+        charFile.write('\tWIS:{}'.format(floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
+        charFile.write('\tCHA:{}\n'.format(floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
+        charFile.close()
 
 
 if __name__ == "__main__":
@@ -581,10 +734,9 @@ if __name__ == "__main__":
         myChar.setClass()
         myChar.setRace()
         print('I am a mighty '+myChar.race + ' ' + myChar.dispClass)
-        print(myChar.stats)
-        myChar.updateAttrForRace()
-        print(myChar.stats)
+        #print(myChar.stats)
         myChar.updateAttrForClass()
+        myChar.updateAttrForRace()
         print(myChar.stats)
         myChar.setBackground()
         print('My humble background is as a ' + myChar.bg)
@@ -593,3 +745,6 @@ if __name__ == "__main__":
         myChar.setSkillsForClass()
         print('I speak ' + ' '.join(list(myChar.langs)))
         print('I do ' + ' '.join(list(myChar.skills)))
+        myChar.setHP()
+        #print('I have ' + str(myChar.hp) + ' HP')
+        myChar.write()

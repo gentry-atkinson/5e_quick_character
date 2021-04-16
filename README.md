@@ -45,6 +45,7 @@ Artificer: Guild Artisan, Sage
 Barbarian: Outlander, Soldier
 Bard: Entertainer, Charlatan
 Cleric: Acolyte, Hermit
+Druid: Outlander, Folk Hero
 Fighter: Folk Hero, Soldier
 Paladin: Noble, Acolyte
 Ranger: Hermit, Folk Hero

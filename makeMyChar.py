@@ -51,6 +51,7 @@ class Character:
         self.size = ""
         self.speed = 0
         self.gold = 0
+        self.spec = "None"
 
     def setClass(self):
         classes = []
@@ -223,6 +224,8 @@ class Character:
             bg = ['Entertainer', 'Charlatan']
         elif self.dispClass == 'Cleric':
             bg = ['Acolyte', 'Hermit']
+        elif self.dispClass == 'Druid':
+            bg = ['Outlander', 'Folk Hero']
         elif self.dispClass == 'Fighter':
             bg = ['Folk Hero', 'Soldier']
         elif self.dispClass == 'Paladin':
@@ -247,7 +250,7 @@ class Character:
     def setSkillsForRace(self):
         if self.race==('Wood Elf'):
             self.skills.add('Perception')
-            self.langs.add('Elven')
+            self.langs.add('Elvish')
             self.wProfs.add('longsword')
             self.wProfs.add('shortsword')
             self.wProfs.add('shortbow')
@@ -270,7 +273,7 @@ class Character:
             self.langs.add('Gnomish')
         elif self.race==('High Elf'):
             self.skills.add('Perception')
-            self.langs.add('Elven')
+            self.langs.add('Elvish')
             self.wProfs.add('longsword')
             self.wProfs.add('shortsword')
             self.wProfs.add('shortbow')
@@ -279,11 +282,17 @@ class Character:
             self.speed = 30
         elif self.race==('Human'):
             self.langs.add('Dwarvish')
+            self.size = 'Medium'
+            self.speed = 30
         elif self.race==('Half Orc'):
             self.skills.add('Intimidation')
             self.langs.add('Orc')
+            self.size = 'Medium'
+            self.speed = 30
         elif self.race==('Lightfoot Halfling'):
             self.langs.add('Halfling')
+            self.size = 'Small'
+            self.speed = 25
         elif self.race==('Hill Dwarf'):
             self.wProfs.add('battleaxe')
             self.wProfs.add('hand axe')
@@ -291,6 +300,8 @@ class Character:
             self.wProfs.add('warhammer')
             self.tProfs.add(choice(['smith\'s tools', 'brewer\'s supplies', 'mason\'s tools']))
             self.langs.add('Dwarvish')
+            self.size = 'Medium'
+            self.speed = 25
         elif self.race==('Mountain Dwarf'):
             self.wProfs.add('battleaxe')
             self.wProfs.add('hand axe')
@@ -300,12 +311,16 @@ class Character:
             self.langs.add('Dwarvish')
             self.aProfs.add('light')
             self.aProfs.add('medium')
+            self.size = 'Medium'
+            self.speed = 25
         elif self.race==('Drow'):
             self.skills.add('Perception')
-            self.langs.add('Elven')
+            self.langs.add('Elvish')
             self.wProfs.add('rapier')
             self.wProfs.add('shortsword')
             self.wProfs.add('hand crossbow')
+            self.size = 'Medium'
+            self.speed = 30
         else:
             raise Exception("Bad race {} when setting languages.".format(self.race))
 
@@ -400,8 +415,6 @@ class Character:
 
     def setSkillsForClass(self):
         if self.cl == 'archer ranger':
-            self.hitDie = 'd10'
-            self.hp = 10 + floor((self.stats['con']-10)/2)
             self.aProfs.add('light')
             self.aProfs.add('medium')
             self.aProfs.add('shields')
@@ -427,10 +440,53 @@ class Character:
                 self.tProfs.add('carpenter\'s tools')
             else:
                 self.tProfs.add('smith\'s tools')
+            if 'Arcana' in self.skills:
+                self.skills.add('Investigation')
+            else:
+                self.skills.add('Arcana')
+            if 'Perception' in self.skills:
+                self.skills.add('Medicine')
+            else:
+                self.skills.add('Perception')
         elif self.cl == 'barbarian':
-
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            if 'Perception' in self.skills:
+                self.skills.add('Intimidation')
+            else:
+                self.skills.add('Perception')
+            if 'Athletics' in self.skills:
+                self.skills.add('Nature')
+            else:
+                self.skills.add('Athletics')
         elif self.cl == 'bard':
-
+            self.aProfs.add('light')
+            self.wProfs.add('simple')
+            self.wProfs.add('hand crossbow')
+            self.wProfs.add('longsword')
+            self.wProfs.add('rapier')
+            self.wProfs.add('shortsword')
+            self.tProfs.add('drum')
+            self.tProfs.add('flute')
+            if 'lute' in self.tProfs:
+                self.tProfs.add('hard')
+            else:
+                self.tProfs.add('lute')
+            if 'Persuasion' in self.skills:
+                self.skills.add('Stealth')
+            else:
+                self.skills.add('Persuasion')
+            if 'Deception' in self.skills:
+                self.skills.add('Acrobatics')
+            else:
+                self.skills.add('Deception')
+            if 'Performance' in self.skills:
+                self.skills.add('Sleight of Hand')
+            else:
+                self.skills.add('Performance')
         elif self.cl == 'caster ranger':
             self.aProfs.add('light')
             self.aProfs.add('medium')
@@ -447,24 +503,71 @@ class Character:
             else:
                 self.skills.add('Perception')
         elif self.cl == 'druid':
-
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('club')
+            self.wProfs.add('dagger')
+            self.wProfs.add('dart')
+            self.wProfs.add('javelin')
+            self.wProfs.add('mace')
+            self.wProfs.add('quarterstaff')
+            self.wProfs.add('scimitar')
+            self.wProfs.add('sickle')
+            self.wProfs.add('sling')
+            self.wProfs.add('spear')
+            self.tProfs.add('herbalism kit')
+            if 'Nature' in self.skills:
+                self.skills.add('Religion')
+            else:
+                self.skills.add('Nature')
+            if 'Survival' in self.skills:
+                self.skills.add('Medicine')
+            else:
+                self.skills.add('Survival')
         elif self.cl == 'healer cleric':
-
-        elif self.cl == 'melee fighter':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            if 'Medicine' in self.skills:
+                self.skills.add('Insight')
+            else:
+                self.skills.add('Medicine')
+            self.skills.add('History')
+        # elif self.cl == 'melee fighter':
 
         elif self.cl == 'paladin':
-
-        elif self.cl == 'rogue':
-
-        elif self.cl == 'sorcerer':
-
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('heavy')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            self.wProfs.add('martial')
+            self.skills.add('Medicine')
+            if 'Intimidation' in self.skills:
+                self.skills.add('Athletics')
+            else:
+                self.skills.add('intimidation')
+        # elif self.cl == 'rogue':
+        #
+        # elif self.cl == 'sorcerer':
+        #
         elif self.cl == 'tank cleric':
-
-        elif self.cl == 'tank fighter':
-
-        elif self.cl == 'warlock':
-
-        elif self.cl == 'wizard':
+            self.aProfs.add('light')
+            self.aProfs.add('medium')
+            self.aProfs.add('shields')
+            self.wProfs.add('simple')
+            if 'Medicine' in self.skills:
+                self.skills.add('Insight')
+            else:
+                self.skills.add('Medicine')
+            self.skills.add('History')
+        # elif self.cl == 'tank fighter':
+        #
+        # elif self.cl == 'warlock':
+        #
+        # elif self.cl == 'wizard':
 
         else:
             raise Exception("Bad class {} when setting skills.".format(self.cl))

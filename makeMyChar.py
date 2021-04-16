@@ -364,7 +364,7 @@ class Character:
             self.tProfs.add('lute')
         elif self.bg == 'Charlatan':
             self.skills.add('Deception')
-            self.skills.add('Slight of Hand')
+            self.skills.add('Sleight of Hand')
             self.tProfs.add('disguise kit')
             self.tProfs.add('forgery kit')
         elif self.bg == 'Acolyte':
@@ -703,11 +703,15 @@ class Character:
         filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
         charFile = open(filename , 'w+')
         dexSkills = ['Acrobatics', 'Sleight of Hand', 'Stealth']
+        wisSkills = ['Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival']
+        intSkills = ['Arcana', 'History', 'Investigation', 'Nature', 'Religion']
+        strSkills = ['Athletics']
+        chaSkills = ['Deception', 'Intimidation', 'Performance', 'Persuasion']
         if not charFile.writable():
             raise Exception('Could not open character file')
             return
         charFile.write('Name: {}\t\tRace: {}\n'.format(self.name, self.race))
-        charFile.write('Levels: 1 {}\t\tBackground: {}\n'.format(self.dispClass, self.bg))
+        charFile.write('Levels: 1 {}\t\tArchetype: {}\t\tBackground: {}\n'.format(self.dispClass, self.arch, self.bg))
         charFile.write('Origin: {}\n'.format(self.origin))
         charFile.write('HP: {}\t\tHit Dice: 1{}\n'.format(self.hp, self.hitDie))
         charFile.write('Saves: \n')
@@ -725,6 +729,22 @@ class Character:
         charFile.write('\t\tINT:{}'.format(floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
         charFile.write('\tWIS:{}'.format(floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
         charFile.write('\tCHA:{}\n'.format(floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
+        charFile.write('Skills:\n')
+        for s in dexSkills:
+            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['dex']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n')
+        for s in wisSkills:
+            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['wis']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n')
+        for s in intSkills:
+            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['int']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n')
+        for s in strSkills:
+            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['str']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n')
+        for s in chaSkills:
+            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['cha']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n')
         charFile.close()
 
 
@@ -737,14 +757,14 @@ if __name__ == "__main__":
         #print(myChar.stats)
         myChar.updateAttrForClass()
         myChar.updateAttrForRace()
-        print(myChar.stats)
+        #print(myChar.stats)
         myChar.setBackground()
-        print('My humble background is as a ' + myChar.bg)
+        #print('My humble background is as a ' + myChar.bg)
         myChar.setSkillsForRace()
         myChar.setSkillsForBackground()
         myChar.setSkillsForClass()
-        print('I speak ' + ' '.join(list(myChar.langs)))
-        print('I do ' + ' '.join(list(myChar.skills)))
+        #print('I speak ' + ' '.join(list(myChar.langs)))
+        #print('I do ' + ' '.join(list(myChar.skills)))
         myChar.setHP()
         #print('I have ' + str(myChar.hp) + ' HP')
         myChar.write()

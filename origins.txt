@@ -9,3 +9,19 @@ Grey Mountain, a dwarven bastion plagued by orcs.
 The Leaves of Dawn, an ancient elven forest with some human settlements.
 Roxton, a small dwarven town on the edge of a busy quarry.
 Pril'yon, the fortress of a maniacal cult.
+Bright Land, tree-top elven temple.
+Greenville, a ranching city on a major trade route.
+Blarwohl, a swamp village with a powerful druid cult.
+Marphon, a glimmering city of brilliant engineers.
+Povol, the territory of a northern nomadic tribe.
+Morton, a city strangled by the whims of a greedy king.
+Granitton, the home of many Dwarven crafters.
+Morphon, home of an illustrious school of magic.
+Milbrough, a river city that hosts busy industry.
+Salsburg, a frozen and forgotten village.
+Sypral, a land nearly lost to dark magic.
+Thimton, the hilltop home of a collective of Gnommish crafters.
+Thrauton, a military encampment that has weathered many wars.
+Grimsby, an awful place that's best forgotten.
+Popton, the hated rival of Pipton.
+Mortleburg, the mountain retreat of the powerful Mortlebort bankers.

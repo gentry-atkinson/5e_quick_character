@@ -52,6 +52,10 @@ class Character:
         self.speed = 0
         self.gold = 0
         self.arch = "None"
+        self.weapons=[]
+        self.armor=[]
+        self.equipment=""
+        self.ac=10
 
     def setClass(self):
         classes = []
@@ -699,6 +703,138 @@ class Character:
             return
         self.hp = int(self.hitDie[1:]) + floor((self.stats['con']-10)/2)
 
+    def pickEquipmentForBackground(self):
+        if self.bg == 'Guild Artisan':
+            self.equipment += "artisan\'s tools, letter of introduction, traveler\'s clothes, belt pouch"
+            self.gold += 15
+        elif self.bg == 'Sage':
+            self.equipment += "bottle of ink, quill, a small knife, letter from dead colleague, common clothes, belt pouch"
+            self.gold += 10
+        elif self.bg == 'Outlander':
+            self.equipment += "staff, hunting trap, a trophy, traveler\'s clothes, belt pouch"
+            self.gold += 10
+        elif self.bg == 'Soldier':
+            self.equipment += "rank insignia, war trophy, set of cards, common clothes, belt pouch"
+            self.gold += 10
+        elif self.bg == 'Entertainer':
+            self.equipment += "a lute, {}, costume clothes, belt pouch".format(choice(['a love letter', 'a lock of hair', 'a lover\'s trinket']))
+            self.gold += 15
+        elif self.bg == 'Charlatan':
+            self.equipment += "fine clothes, disguise kit, {}, belt pouch".format(choice(['weighted dice', '10 bottles of colored liquid', 'a fake signet ring']))
+            self.gold += 15
+        elif self.bg == 'Acolyte':
+            self.equipment += "holy symbol, a prayer book, 5 sticks of incense, common clothes, belt pouch"
+            self.gold += 15
+        elif self.bg == 'Hermit':
+            sself.equipment += "scroll case of notes, a winter blake, common clothes, an herbalism kit"
+            self.gold += 5
+        elif self.bg == 'Folk Hero':
+            self.equipment += "artisan\'s tools, a shovel, an iron pot, common clothes, belt poush"
+            self.gold += 10
+        elif self.bg == 'Noble':
+            self.equipment += "fine clothes, signet ring, scroll of pedigree, purse"
+            self.gold += 25
+        elif self.bg == 'Urchin':
+            self.equipment += "a small knife, map of home city, pet mouse, token from parents, common clothes, belt pouch"
+            self.gold += 10
+        elif self.bg == 'Criminal':
+            self.equipment += "a crowbar, dark hooded clothes, belt pouch"
+            self.gold += 15
+        else:
+            raise Exception("Bad background {} when picking equipment.".format(self.bg))
+
+    def pickEquipmentForClass(self):
+        if self.cl == 'archer ranger':
+            self.armor.append('leather')
+            self.weapons.append('two shortswords')
+            self.equipment += ", an explorer\'s pack"
+            self.weapons.append('longbow')
+            self.weapons.append('quiver of 20 arrows')
+        elif self.cl == 'artificer':
+            self.armor.append('studded leather')
+            self.weapons.append('light crossbow')
+            self.weapons.append('20 bolts')
+            self.weapons.append('2 daggers')
+            self.equipment += ", thieves\' tools, a dungeoneer\'s pack"
+        elif self.cl == 'barbarian':
+            self.weapons.append('greataxe')
+            self.weapons.append('two handaxes')
+            self.weapons.append('4 javelins')
+            self.equipment += ", an explorer\'s pack"
+        elif self.cl == 'bard':
+            self.weapons.append('rapier')
+            self.equipments += ", an entertainer\'s pack, a flute"
+            self.armor.append('leather')
+            self.weapons.append('dagger')
+        elif self.cl == 'caster ranger':
+            self.armor.append('scale mail')
+            self.weapons.append('two shortswords')
+            self.equipment += ", an dungeoneer\'s pack"
+            self.weapons.append('longbow')
+            self.weapons.append('quiver of 20 arrows')
+        elif self.cl == 'druid':
+            self.armor.append('wooden shield')
+            self.weapons.append('scimitar')
+            self.armor.append('leather')
+            self.equipment += ", an explorer\'s pack, a druidic focus"
+        elif self.cl == 'healer cleric':
+            self.weapons.append('mace')
+            self.armor.append('scale mail')
+            self.weapons.append('light crossbow')
+            self.weapons.append('20 bolts')
+            self.armor.append('shield')
+            self.equipment += ", a priest\'s pack, a holy symbol"
+        elif self.cl == 'melee fighter':
+            self.armor.append('chain main')
+            self.weapons.append('longsword')
+            self.armor.append('shield')
+            self.weapons.append('two handaxes')
+            self.equipment += ", a dungwoneer\'s pack"
+        elif self.cl == 'paladin':
+            self.weapons.append('longsword')
+            self.armor.append('shield')
+            self.weapons.append('5 javelins')
+            self.armor.append('chain mail')
+            self.equipment += ", an explorer\'s pack, a holy symbol"
+        elif self.cl == 'rogue':
+            self.weapons.append('shortsword')
+            self.weapons.append('shortbow')
+            self.weapons.append('20 arrows')
+            self.armor.append('leather')
+            self.weapons.append('2 daggers')
+            self.equipment += ", a burglar\'s pack, thieves\'s tools"
+        elif self.cl == 'sorcerer':
+            self.weapons.append('light crossbow')
+            self.weapons.append('20 bolts')
+            self.weapons.append('2 daggers')
+            self.equipment += ", an arcane focus, a dungeoneer\'s pack"
+        elif self.cl == 'tank cleric':
+            self.weapons.append('warhammer')
+            self.armor.append('chain mail')
+            self.weapons.append('mace')
+            self.armor.append('shield')
+            self.equipment += ", a priest\'s pack, a holy symbol"
+        elif self.cl == 'tank fighter':
+            self.armor.append('chain main')
+            self.weapons.append('longsword')
+            self.armor.append('shield')
+            self.weapons.append('two handaxes')
+            self.equipment += ", a dungeoneer\'s pack"
+        elif self.cl == 'warlock':
+            self.weapons.append('light crossbow')
+            self.weapons.append('20 bolts')
+            self.weapons.append('2 daggers')
+            self.armor.append('leather')
+            self.weapons.append('mace')
+            self.equipment += ", a component pouch, a dungeoneer\'s pack"
+        elif self.cl == 'wizard':
+            self.weapons.append('dagger')
+            self.equipment += ". a component pouch, a scholar\'s pack, a spellbook"
+        else:
+            raise Exception("Bad class {} when picking equipment.".format(self.cl))
+            return
+
+
     def write(self):
         filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
         charFile = open(filename , 'w+')
@@ -714,7 +850,7 @@ class Character:
         charFile.write('Levels: 1 {}\t\tArchetype: {}\t\tBackground: {}\n'.format(self.dispClass, self.arch, self.bg))
         charFile.write('Origin: {}\n'.format(self.origin))
         charFile.write('HP: {}\t\tHit Dice: 1{}\n'.format(self.hp, self.hitDie))
-        charFile.write('Saves: \n')
+        charFile.write('Stats: \n')
         charFile.write('\t\tSTR:{}\tDEX:{}\tCON:{} \n'.format(self.stats['str'], self.stats['dex'], self.stats['con']))
         charFile.write('\t\tINT:{}\tWIS:{}\tCHA:{} \n'.format(self.stats['int'], self.stats['wis'], self.stats['cha']))
         charFile.write('Proficiency Bonus: +1\n')
@@ -723,12 +859,12 @@ class Character:
         charFile.write('Armor Proficiencies: {}\n'.format(', '.join(self.aProfs)))
         charFile.write('Languages: {}\n'.format(', '.join(self.langs)))
         charFile.write('Saves: {}\n'.format(' '.join([i.upper() for i in self.save])))
-        charFile.write('\t\tSTR:{}'.format(floor((self.stats['str']-10)/2) + (1 if 'str' in self.save else 0)))
-        charFile.write('\tDEX:{}'.format(floor((self.stats['dex']-10)/2) + (1 if 'dex' in self.save else 0)))
-        charFile.write('\tCON:{}\n'.format(floor((self.stats['con']-10)/2) + (1 if 'con' in self.save else 0)))
-        charFile.write('\t\tINT:{}'.format(floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
-        charFile.write('\tWIS:{}'.format(floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
-        charFile.write('\tCHA:{}\n'.format(floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
+        charFile.write('\t\tSTR: +{}'.format(floor((self.stats['str']-10)/2) + (1 if 'str' in self.save else 0)))
+        charFile.write('\t\tDEX: +{}'.format(floor((self.stats['dex']-10)/2) + (1 if 'dex' in self.save else 0)))
+        charFile.write('\t\tCON: +{}\n'.format(floor((self.stats['con']-10)/2) + (1 if 'con' in self.save else 0)))
+        charFile.write('\t\tINT: +{}'.format(floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
+        charFile.write('\t\tWIS: +{}'.format(floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
+        charFile.write('\t\tCHA: +{}\n'.format(floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
         charFile.write('Skills:\n')
         for s in dexSkills:
             charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['dex']-10)/2)+(1 if s in self.skills else 0))))
@@ -744,7 +880,12 @@ class Character:
         charFile.write('\n')
         for s in chaSkills:
             charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['cha']-10)/2)+(1 if s in self.skills else 0))))
+        charFile.write('\n\n')
+        charFile.write('Weapons: ' + ', '.join(self.weapons))
         charFile.write('\n')
+        charFile.write('Armor: ' + ', '.join(self.armor))
+        charFile.write('\n')
+        charFile.write("Equipment: " + self.equipment + '\n')
         charFile.close()
 
 
@@ -766,5 +907,8 @@ if __name__ == "__main__":
         #print('I speak ' + ' '.join(list(myChar.langs)))
         #print('I do ' + ' '.join(list(myChar.skills)))
         myChar.setHP()
+        myChar.pickEquipmentForBackground()
+        myChar.pickEquipmentForClass()
         #print('I have ' + str(myChar.hp) + ' HP')
+        #print('Equipment: ' + myChar.equipment)
         myChar.write()

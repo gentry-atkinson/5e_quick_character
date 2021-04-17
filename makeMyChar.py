@@ -200,7 +200,7 @@ class Character:
         elif self.cl == 'rogue':
             attributes = ['dex', 'cha', 'int', 'wis', 'con', 'str']
         elif self.cl == 'sorcerer':
-            attributes = ['dex', 'wis', 'con', 'int', 'str', 'cha']
+            attributes = ['cha', 'dex', 'con', 'str', 'wis', 'int']
         elif self.cl == 'tank cleric':
             attributes = ['con', 'str', 'wis', 'dex', 'int', 'cha']
         elif self.cl == 'tank fighter':
@@ -859,7 +859,7 @@ class Character:
 
     def determineSpells(self):
         if self.cl == 'wizard':
-            self.spells.append(['Prestidigitation', 'Light', choice('Acid Splash', 'Fire Bolt', 'Toll the Dead')])
+            self.spells.append(['Prestidigitation', 'Light', choice(['Acid Splash', 'Fire Bolt', 'Toll the Dead'])])
             self.spells.append(['Magic Missle', 'Charm Person', 'Color Spray', 'Detect Magic'])
             self.spells[1].append(choice(['Longstrider', 'Mage Armor', 'Protection from Good and Evil']))
             self.spells[1].append(choice(['Ray of Sickness', 'Shield', 'Catapult']))
@@ -868,12 +868,12 @@ class Character:
 
         elif self.cl == 'warlock':
             self.spells.append(['Eldritch Blast', 'Friends']) #2
-            self.spells.append([choice('Arms of Hador', 'Cause Fear'), choice('Charm Person', 'Expiditious Retreat')]) #2
+            self.spells.append([choice(['Arms of Hador', 'Cause Fear']), choice(['Charm Person', 'Expiditious Retreat'])]) #2
             self.spellBonus = 1 + floor((self.stats['cha']-10)/2)
             self.spellSlots[1] = 1
 
         elif self.cl == 'sorcerer':
-            self.spells.append([choice(['Acid Splash', 'Fire Bolt'], 'Dancing Lights', choice(['Frostbite', 'Poison Spray', 'Shocking Grasp']), 'Mage Hand')])#4
+            self.spells.append([choice(['Acid Splash', 'Fire Bolt']), 'Dancing Lights', choice(['Frostbite', 'Poison Spray', 'Shocking Grasp']), 'Mage Hand'])#4
             self.spells.append([choice(['Burning Hands', 'Fog Cloud', 'Ice Knife']), choice(['Comprehend Languages', 'Detect Magic', 'Feather Fall'])])#2
             self.spellBonus = 1 + floor((self.stats['cha']-10)/2)
             self.spellSlots[1] = 2
@@ -889,6 +889,18 @@ class Character:
             self.spells.append(['Bless', 'Cure Wounds'])#2
             self.spellBonus = 1 + floor((self.stats['wis']-10)/2)
             self.spellSlots[1] = 2
+
+        elif self.cl == 'bard':
+            self.spells.append(['Prestidigitation', choice(['Friends', 'Green-Flame Bleade', 'Thunderclap'])])#2
+            self.spells.append(['Comprehend Languages', 'Charm Person', 'Identify', choice(['Longstrider', 'Sleep', 'Tasha\'s Hideous Laughter'])])#4
+            self.spellBonus = 1 + floor((self.stats['cha']-10)/2)
+            self.spellSlots[1] = 2
+
+        elif self.cl == 'artificer':
+            self.spells.append(['Sword Burst', 'Mending'])#2
+            self.spells.append([])#2
+            self.spellBonus = 1 + floor((self.stats['int']-10)/2)
+            self.spellSlots[1] = 0
 
     def write(self):
         filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
@@ -958,6 +970,8 @@ class Character:
             charFile.write('\n')
             charFile.write('Spell Bonus: +{}\t\tSpell DC: {}\n'.format(self.spellBonus, 8+self.spellBonus))
             charFile.write('Cantrips: {}\n'.format(', '.join(self.spells[0])))
+            charFile.write('Level 1 Spell Slots: {}\n'.format(self.spellSlots[1]))
+            charFile.write('Level 1 Spells: {}\n'.format(', '.join(self.spells[1])))
         charFile.close()
 
 

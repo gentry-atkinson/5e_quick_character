@@ -15,9 +15,9 @@ Emeritus
 Fullbright
 Fulton
 Fallrock
-Far Walker
+Far-Walker
 Grox
-Growl Belly
+Growl-Belly
 Goodman
 Hulmoch
 Horton
@@ -40,7 +40,7 @@ Pebble
 Pulman
 Rock Smasher
 Rolox
-Soul Reaver
+Soul-Reaver
 Sebastian
 the Serf
 the Tallest

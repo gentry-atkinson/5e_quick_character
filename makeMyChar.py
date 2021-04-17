@@ -56,6 +56,9 @@ class Character:
         self.armor=[]
         self.equipment=""
         self.ac=10
+        self.spells = []
+        self.spellBonus = 0
+        self.spellSlots = [0, 0]
 
     def setClass(self):
         classes = []
@@ -726,7 +729,7 @@ class Character:
             self.equipment += "holy symbol, a prayer book, 5 sticks of incense, common clothes, belt pouch"
             self.gold += 15
         elif self.bg == 'Hermit':
-            sself.equipment += "scroll case of notes, a winter blake, common clothes, an herbalism kit"
+            self.equipment += "scroll case of notes, a winter blake, common clothes, an herbalism kit"
             self.gold += 5
         elif self.bg == 'Folk Hero':
             self.equipment += "artisan\'s tools, a shovel, an iron pot, common clothes, belt poush"
@@ -763,7 +766,7 @@ class Character:
             self.equipment += ", an explorer\'s pack"
         elif self.cl == 'bard':
             self.weapons.append('rapier')
-            self.equipments += ", an entertainer\'s pack, a flute"
+            self.equipment += ", an entertainer\'s pack, a flute"
             self.armor.append('leather')
             self.weapons.append('dagger')
         elif self.cl == 'caster ranger':
@@ -785,7 +788,7 @@ class Character:
             self.armor.append('shield')
             self.equipment += ", a priest\'s pack, a holy symbol"
         elif self.cl == 'melee fighter':
-            self.armor.append('chain main')
+            self.armor.append('chain mail')
             self.weapons.append('longsword')
             self.armor.append('shield')
             self.weapons.append('two handaxes')
@@ -815,7 +818,7 @@ class Character:
             self.armor.append('shield')
             self.equipment += ", a priest\'s pack, a holy symbol"
         elif self.cl == 'tank fighter':
-            self.armor.append('chain main')
+            self.armor.append('chain mail')
             self.weapons.append('longsword')
             self.armor.append('shield')
             self.weapons.append('two handaxes')
@@ -834,6 +837,58 @@ class Character:
             raise Exception("Bad class {} when picking equipment.".format(self.cl))
             return
 
+    def determineAC(self):
+        bonus = floor((self.stats['dex']-10)/2)
+        if self.dispClass == 'Barbarian':
+            self.ac += bonus
+            self.ac += floor((self.stats['con']-10)/2)
+        else:
+            if 'leather' in self.armor:
+                self.ac = 11
+                self.ac += bonus
+            elif 'studded leather' in self.armor:
+                self.ac = 12
+                self.ac += bonus
+            elif 'scale mail' in self.armor:
+                self.ac = 14
+                self.ac += (2 if bonus > 2 else bonus)
+            elif 'chain mail' in self.armor:
+                self.ac = 16
+        if 'shield' in self.armor or 'wooden shield' in self. armor:
+            self.ac += 2
+
+    def determineSpells(self):
+        if self.cl == 'wizard':
+            self.spells.append(['Prestidigitation', 'Light', choice('Acid Splash', 'Fire Bolt', 'Toll the Dead')])
+            self.spells.append(['Magic Missle', 'Charm Person', 'Color Spray', 'Detect Magic'])
+            self.spells[1].append(choice(['Longstrider', 'Mage Armor', 'Protection from Good and Evil']))
+            self.spells[1].append(choice(['Ray of Sickness', 'Shield', 'Catapult']))
+            self.spellBonus = 1 + floor((self.stats['int']-10)/2)
+            self.spellSlots[1] = 2
+
+        elif self.cl == 'warlock':
+            self.spells.append(['Eldritch Blast', 'Friends']) #2
+            self.spells.append([choice('Arms of Hador', 'Cause Fear'), choice('Charm Person', 'Expiditious Retreat')]) #2
+            self.spellBonus = 1 + floor((self.stats['cha']-10)/2)
+            self.spellSlots[1] = 1
+
+        elif self.cl == 'sorcerer':
+            self.spells.append([choice(['Acid Splash', 'Fire Bolt'], 'Dancing Lights', choice(['Frostbite', 'Poison Spray', 'Shocking Grasp']), 'Mage Hand')])#4
+            self.spells.append([choice(['Burning Hands', 'Fog Cloud', 'Ice Knife']), choice(['Comprehend Languages', 'Detect Magic', 'Feather Fall'])])#2
+            self.spellBonus = 1 + floor((self.stats['cha']-10)/2)
+            self.spellSlots[1] = 2
+
+        elif self.cl == 'druid':
+            self.spells.append(['Druidcraft', choice(['Control Flames', 'Guidance'])])#2
+            self.spells.append(['Beast Bond', choice(['Cure Wounds', 'Entangle'])])#2
+            self.spellBonus = 1 + floor((self.stats['wis']-10)/2)
+            self.spellSlots[1] = 2
+
+        elif self.cl == 'tank cleric' or self.cl == 'healer cleric':
+            self.spells.append(['Thaumaturgy', 'Sacred Flame', 'Spare the Dying'])#3
+            self.spells.append(['Bless', 'Cure Wounds'])#2
+            self.spellBonus = 1 + floor((self.stats['wis']-10)/2)
+            self.spellSlots[1] = 2
 
     def write(self):
         filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
@@ -849,43 +904,60 @@ class Character:
         charFile.write('Name: {}\t\tRace: {}\n'.format(self.name, self.race))
         charFile.write('Levels: 1 {}\t\tArchetype: {}\t\tBackground: {}\n'.format(self.dispClass, self.arch, self.bg))
         charFile.write('Origin: {}\n'.format(self.origin))
+        charFile.write('\n')
         charFile.write('HP: {}\t\tHit Dice: 1{}\n'.format(self.hp, self.hitDie))
         charFile.write('Stats: \n')
-        charFile.write('\t\tSTR:{}\tDEX:{}\tCON:{} \n'.format(self.stats['str'], self.stats['dex'], self.stats['con']))
-        charFile.write('\t\tINT:{}\tWIS:{}\tCHA:{} \n'.format(self.stats['int'], self.stats['wis'], self.stats['cha']))
+        charFile.write('\t\tSTR:{}'.format(self.stats['str']))
+        charFile.write('\tDEX:{}'.format(self.stats['dex'],))
+        charFile.write('\tCON:{}\n'.format(self.stats['con']))
+        charFile.write('\t\tINT:{}'.format(self.stats['int']))
+        charFile.write('\tWIS:{}'.format(self.stats['wis'],))
+        charFile.write('\tCHA:{}\n'.format(self.stats['cha']))
         charFile.write('Proficiency Bonus: +1\n')
+        charFile.write('\n')
         charFile.write('Tool Proficiencies: {}\n'.format(', '.join(self.tProfs)))
         charFile.write('Weapon Proficiencies: {}\n'.format(', '.join(self.wProfs)))
         charFile.write('Armor Proficiencies: {}\n'.format(', '.join(self.aProfs)))
         charFile.write('Languages: {}\n'.format(', '.join(self.langs)))
         charFile.write('Saves: {}\n'.format(' '.join([i.upper() for i in self.save])))
-        charFile.write('\t\tSTR: +{}'.format(floor((self.stats['str']-10)/2) + (1 if 'str' in self.save else 0)))
-        charFile.write('\t\tDEX: +{}'.format(floor((self.stats['dex']-10)/2) + (1 if 'dex' in self.save else 0)))
-        charFile.write('\t\tCON: +{}\n'.format(floor((self.stats['con']-10)/2) + (1 if 'con' in self.save else 0)))
-        charFile.write('\t\tINT: +{}'.format(floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
-        charFile.write('\t\tWIS: +{}'.format(floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
-        charFile.write('\t\tCHA: +{}\n'.format(floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
+        charFile.write('\t\tSTR: {}{}'.format('+' if self.stats['str'] >=10 else '', floor((self.stats['str']-10)/2) + (1 if 'str' in self.save else 0)))
+        charFile.write('\t\tDEX: {}{}'.format('+' if self.stats['dex'] >=10 else '', floor((self.stats['dex']-10)/2) + (1 if 'dex' in self.save else 0)))
+        charFile.write('\t\tCON: {}{}\n'.format('+' if self.stats['con'] >=10 else '', floor((self.stats['con']-10)/2) + (1 if 'con' in self.save else 0)))
+        charFile.write('\t\tINT: {}{}'.format('+' if self.stats['int'] >=10 else '', floor((self.stats['int']-10)/2) + (1 if 'int' in self.save else 0)))
+        charFile.write('\t\tWIS: {}{}'.format('+' if self.stats['wis'] >=10 else '', floor((self.stats['wis']-10)/2) + (1 if 'wis' in self.save else 0)))
+        charFile.write('\t\tCHA: {}{}\n'.format('+' if self.stats['cha'] >=10 else '', floor((self.stats['cha']-10)/2) + (1 if 'cha' in self.save else 0)))
+        charFile.write('\n')
         charFile.write('Skills:\n')
         for s in dexSkills:
-            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['dex']-10)/2)+(1 if s in self.skills else 0))))
+            bonus = floor((self.stats['dex']-10)/2)+(1 if s in self.skills else 0)
+            charFile.write('\t({}){}: {}{}'.format('P' if s in self.skills else '_', s, '+' if bonus >=0 else '',str(bonus)))
         charFile.write('\n')
         for s in wisSkills:
-            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['wis']-10)/2)+(1 if s in self.skills else 0))))
+            bonus = floor((self.stats['wis']-10)/2)+(1 if s in self.skills else 0)
+            charFile.write('\t({}){}: {}{}'.format('P' if s in self.skills else '_', s, '+' if bonus >=0 else '',str(bonus)))
         charFile.write('\n')
         for s in intSkills:
-            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['int']-10)/2)+(1 if s in self.skills else 0))))
+            bonus = floor((self.stats['int']-10)/2)+(1 if s in self.skills else 0)
+            charFile.write('\t({}){}: {}{}'.format('P' if s in self.skills else '_', s, '+' if bonus >=0 else '',str(bonus)))
         charFile.write('\n')
         for s in strSkills:
-            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['str']-10)/2)+(1 if s in self.skills else 0))))
+            bonus = floor((self.stats['str']-10)/2)+(1 if s in self.skills else 0)
+            charFile.write('\t({}){}: {}{}'.format('P' if s in self.skills else '_', s, '+' if bonus >=0 else '',str(bonus)))
         charFile.write('\n')
         for s in chaSkills:
-            charFile.write('\t({}){}: +{}'.format('P' if s in self.skills else '_', s, str(floor((self.stats['cha']-10)/2)+(1 if s in self.skills else 0))))
+            bonus = floor((self.stats['cha']-10)/2)+(1 if s in self.skills else 0)
+            charFile.write('\t({}){}: {}{}'.format('P' if s in self.skills else '_', s, '+' if bonus >=0 else '',str(bonus)))
         charFile.write('\n\n')
         charFile.write('Weapons: ' + ', '.join(self.weapons))
         charFile.write('\n')
         charFile.write('Armor: ' + ', '.join(self.armor))
+        charFile.write('\t\tAC: {}'.format(self.ac))
         charFile.write('\n')
         charFile.write("Equipment: " + self.equipment + '\n')
+        if self.spellBonus != 0:
+            charFile.write('\n')
+            charFile.write('Spell Bonus: +{}\t\tSpell DC: {}\n'.format(self.spellBonus, 8+self.spellBonus))
+            charFile.write('Cantrips: {}\n'.format(', '.join(self.spells[0])))
         charFile.close()
 
 
@@ -909,6 +981,8 @@ if __name__ == "__main__":
         myChar.setHP()
         myChar.pickEquipmentForBackground()
         myChar.pickEquipmentForClass()
+        myChar.determineAC()
+        myChar.determineSpells()
         #print('I have ' + str(myChar.hp) + ' HP')
         #print('Equipment: ' + myChar.equipment)
         myChar.write()

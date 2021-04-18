@@ -72,9 +72,11 @@ class Character:
         if self.stats['dex'] == main:
             classes.append('archer ranger')
             classes.append('rogue')
+            classes.append('two-weapon ranger')
         if self.stats['int'] == main:
             classes.append('wizard')
             classes.append( 'artificer')
+            classes.append('rogue')
         if self.stats['wis'] == main:
             classes.append('healer cleric')
             classes.append( 'caster ranger')
@@ -90,6 +92,9 @@ class Character:
         if self.cl == 'archer ranger':
             races.append('Wood Elf')
             races.append('Half Elf')
+        if self.cl == 'two-weapon ranger':
+            races.append('Wood Elf')
+            races.append('Human')
         elif self.cl == 'artificer':
             races.append('Rock Gnome')
             races.append('High Elf')
@@ -181,6 +186,8 @@ class Character:
         attributes = []
         if self.cl == 'archer ranger':
             attributes = ['dex', 'wis', 'con', 'int', 'str', 'cha']
+        if self.cl == 'two-weapon ranger':
+            attributes = ['dex', 'con', 'wis', 'str', 'int', 'cha']
         elif self.cl == 'artificer':
             attributes = ['int', 'dex', 'con', 'wis', 'cha', 'str']
         elif self.cl == 'barbarian':
@@ -421,7 +428,7 @@ class Character:
             raise Exception("Bad background {} when setting skills.".format(self.bg))
 
     def setSkillsForClass(self):
-        if self.cl == 'archer ranger':
+        if self.cl == 'archer ranger' or self.cl == 'two-weapon ranger':
             self.aProfs.add('light')
             self.aProfs.add('medium')
             self.aProfs.add('shields')
@@ -729,10 +736,10 @@ class Character:
             self.equipment += "holy symbol, a prayer book, 5 sticks of incense, common clothes, belt pouch"
             self.gold += 15
         elif self.bg == 'Hermit':
-            self.equipment += "scroll case of notes, a winter blake, common clothes, an herbalism kit"
+            self.equipment += "scroll case of notes, a winter blanket, common clothes, an herbalism kit"
             self.gold += 5
         elif self.bg == 'Folk Hero':
-            self.equipment += "artisan\'s tools, a shovel, an iron pot, common clothes, belt poush"
+            self.equipment += "artisan\'s tools, a shovel, an iron pot, common clothes, belt pouch"
             self.gold += 10
         elif self.bg == 'Noble':
             self.equipment += "fine clothes, signet ring, scroll of pedigree, purse"
@@ -747,7 +754,7 @@ class Character:
             raise Exception("Bad background {} when picking equipment.".format(self.bg))
 
     def pickEquipmentForClass(self):
-        if self.cl == 'archer ranger':
+        if self.cl == 'archer ranger' or self.cl == 'two-weapon ranger':
             self.armor.append('leather')
             self.weapons.append('two shortswords')
             self.equipment += ", an explorer\'s pack"
@@ -981,22 +988,15 @@ if __name__ == "__main__":
         myChar.setClass()
         myChar.setRace()
         print('I am a mighty '+myChar.race + ' ' + myChar.dispClass)
-        #print(myChar.stats)
         myChar.updateAttrForClass()
         myChar.updateAttrForRace()
-        #print(myChar.stats)
         myChar.setBackground()
-        #print('My humble background is as a ' + myChar.bg)
         myChar.setSkillsForRace()
         myChar.setSkillsForBackground()
         myChar.setSkillsForClass()
-        #print('I speak ' + ' '.join(list(myChar.langs)))
-        #print('I do ' + ' '.join(list(myChar.skills)))
         myChar.setHP()
         myChar.pickEquipmentForBackground()
         myChar.pickEquipmentForClass()
         myChar.determineAC()
         myChar.determineSpells()
-        #print('I have ' + str(myChar.hp) + ' HP')
-        #print('Equipment: ' + myChar.equipment)
         myChar.write()

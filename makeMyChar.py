@@ -191,7 +191,7 @@ class Character:
         attributes = []
         if self.cl == 'archer ranger':
             attributes = ['dex', 'wis', 'con', 'int', 'str', 'cha']
-        if self.cl == 'two-weapon ranger':
+        elif self.cl == 'two-weapon ranger':
             attributes = ['dex', 'con', 'wis', 'str', 'int', 'cha']
         elif self.cl == 'artificer':
             attributes = ['int', 'dex', 'con', 'wis', 'cha', 'str']

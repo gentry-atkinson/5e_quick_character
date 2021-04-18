@@ -6,8 +6,12 @@
 #  standard reference document.                                   #
 ###################################################################
 
-from random import randint, shuffle, choice
+import sys
+from random import randint, shuffle, choice, seed
 from math import floor
+
+filePath = ""
+
 
 def rollAttr():
     roll = [randint(1,6), randint(1,6), randint(1,6), randint(1,6)]
@@ -37,6 +41,7 @@ class Character:
         origins = oFile.read().strip().split('\n')
         oFile.close()
 
+        seed()
         shuffle(fNames)
         shuffle(lNames)
         shuffle(origins)
@@ -92,7 +97,7 @@ class Character:
         if self.cl == 'archer ranger':
             races.append('Wood Elf')
             races.append('Half Elf')
-        if self.cl == 'two-weapon ranger':
+        elif self.cl == 'two-weapon ranger':
             races.append('Wood Elf')
             races.append('Human')
         elif self.cl == 'artificer':
@@ -209,7 +214,7 @@ class Character:
         elif self.cl == 'sorcerer':
             attributes = ['cha', 'dex', 'con', 'str', 'wis', 'int']
         elif self.cl == 'tank cleric':
-            attributes = ['con', 'str', 'wis', 'dex', 'int', 'cha']
+            attributes = ['str', 'con', 'wis', 'dex', 'int', 'cha']
         elif self.cl == 'tank fighter':
             attributes = ['con', 'str', 'cha', 'dex', 'int', 'wis']
         elif self.cl == 'warlock':
@@ -486,7 +491,7 @@ class Character:
             self.tProfs.add('drum')
             self.tProfs.add('flute')
             if 'lute' in self.tProfs:
-                self.tProfs.add('hard')
+                self.tProfs.add('maraca')
             else:
                 self.tProfs.add('lute')
             if 'Persuasion' in self.skills:
@@ -839,7 +844,7 @@ class Character:
             self.equipment += ", a component pouch, a dungeoneer\'s pack"
         elif self.cl == 'wizard':
             self.weapons.append('dagger')
-            self.equipment += ". a component pouch, a scholar\'s pack, a spellbook"
+            self.equipment += ", a component pouch, a scholar\'s pack, a spellbook"
         else:
             raise Exception("Bad class {} when picking equipment.".format(self.cl))
             return
@@ -910,7 +915,7 @@ class Character:
             self.spellSlots[1] = 0
 
     def write(self):
-        filename = 'chars/{}.txt'.format(self.name).replace(' ', '_')
+        filename = '{}{}.txt'.format(filePath, self.name).replace(' ', '_')
         charFile = open(filename , 'w+')
         dexSkills = ['Acrobatics', 'Sleight of Hand', 'Stealth']
         wisSkills = ['Animal Handling', 'Insight', 'Medicine', 'Perception', 'Survival']
@@ -983,6 +988,15 @@ class Character:
 
 
 if __name__ == "__main__":
+        if len(sys.argv) == 1:
+            filePath = 'chars/'
+        elif len(sys.argv) == 2:
+            if sys.argv[1] == 'linux':
+                filePath = 'chars/'
+            elif sys.argv[1] == 'windows':
+                filePath = 'chars\\'
+        else:
+            raise Exception("Unknown OS")
         myChar = Character()
         print('Greeings, I am ' + myChar.name + ' of ' + myChar.origin.split(',')[0])
         myChar.setClass()

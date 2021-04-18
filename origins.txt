@@ -20,8 +20,16 @@ Morphon, home of an illustrious school of magic.
 Milbrough, a river city that hosts busy industry.
 Salsburg, a frozen and forgotten village.
 Sypral, a land nearly lost to dark magic.
-Thimton, the hilltop home of a collective of Gnommish crafters.
+Thimton, the hilltop home of a collective of Gnomish crafters.
 Thrauton, a military encampment that has weathered many wars.
 Grimsby, an awful place that's best forgotten.
 Popton, the hated rival of Pipton.
 Mortleburg, the mountain retreat of the powerful Mortlebort bankers.
+Blanton, once a ranch but now the home of a renowned brewer.
+Rat's Mouth, a roguish slum that hosts many smugglers and burglars.
+Yarin's Dale, a comfortable and pastoral village of haflings.
+Pertyn, a small city eager to make its name amongst traders.
+The Eye of Flame, the fortress of an evil enchanter.
+Awestyn, a city occupied exclusively by bards and rogues.
+Marvish, which is just a city.
+Hullaroo, a country crossroads where local farmhands like to cut loose.

@@ -866,6 +866,8 @@ class Character:
                 self.ac += (2 if bonus > 2 else bonus)
             elif 'chain mail' in self.armor:
                 self.ac = 16
+            else:
+                self.ac += bonus
         if 'shield' in self.armor or 'wooden shield' in self. armor:
             self.ac += 2
 

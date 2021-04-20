@@ -804,7 +804,7 @@ class Character:
             self.weapons.append('longsword')
             self.armor.append('shield')
             self.weapons.append('two handaxes')
-            self.equipment += ", a dungwoneer\'s pack"
+            self.equipment += ", a dungeoneer\'s pack"
         elif self.cl == 'paladin':
             self.weapons.append('longsword')
             self.armor.append('shield')

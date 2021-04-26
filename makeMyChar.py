@@ -9,23 +9,22 @@
 import sys
 from random import randint, shuffle, choice, seed
 from math import floor
+from dice import roll4drop1
 
 filePath = ""
 
 
-def rollAttr():
-    roll = [randint(1,6), randint(1,6), randint(1,6), randint(1,6)]
-    return sum(roll) - min(roll)
+
 
 class Character:
     def __init__(self):
         self.stats = {
-            'str' : rollAttr(),
-            'dex' : rollAttr(),
-            'con' : rollAttr(),
-            'int' : rollAttr(),
-            'wis' : rollAttr(),
-            'cha' : rollAttr(),
+            'str' : roll4drop1(),
+            'dex' : roll4drop1(),
+            'con' : roll4drop1(),
+            'int' : roll4drop1(),
+            'wis' : roll4drop1(),
+            'cha' : roll4drop1(),
         }
 
 

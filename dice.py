@@ -46,4 +46,14 @@ def rollD100():
 
 
 if __name__ == '__main__':
-    print(roll4drop1())
+    stats = [roll4drop1(),roll4drop1(),roll4drop1(),roll4drop1(),roll4drop1(),roll4drop1()]
+    stats.sort()
+    print(' '.join([str(i) for i in stats]))
+
+    #Below here is an experiment to find the expected value of roll4drop1
+    #The answer seems to be a little over 12.2 
+    # poop = 0
+    # ROLLS = 100000
+    # for _ in range(ROLLS):
+    #     poop += roll4drop1()
+    # print(poop/ROLLS)

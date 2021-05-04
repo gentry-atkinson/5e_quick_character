@@ -1,15 +1,15 @@
 # 5e_quick_character
 
-##Description
+## Description
 This script will generate one D&D 5e character as a text file each time it is called.
 
-##Atributes
+## Atributes
 Stats are generated using the roll 4d6, drop the lowest method.
 
-##Name and Origin
+## Name and Origin
 Modify the first_name.txt, last_name.txt, and origins.txt to add or remove names and places
 
-##Class
+## Class
 A class is chosen for the character based on the highest attribute. The possibilities are:
 
 STR: melee fighter, barbarian, paladin, two-weapon ranger
@@ -19,7 +19,7 @@ INT: wizard, artificer
 WIS: healer cleric, caster ranger, druid
 CHA: bard, sorcerer, warlock, paladin
 
-##Race
+## Race
 A race is chosen for the character based on the chosen class. The possibilities are:
 
 Archer Ranger: wood elf, half elf
@@ -38,7 +38,7 @@ Tank Fighter: human, mountain dwarf
 Warlock: drow, half elf
 Wizard: human, high elf
 
-##Background
+## Background
 The character's background is selected at random from two choices for each class. The possibilities are:
 
 Artificer: Guild Artisan, Sage
